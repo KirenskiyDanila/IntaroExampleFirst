@@ -88,12 +88,12 @@ function getData($login): bool|string // возвращает строку да�
 {
 
     $url = "https://api.github.com/graphql";
-
+    $token = parse_ini_file("variables.ini")['token'];
     if ($ch = curl_init($url)) {
 
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
-        $authorization = "Authorization: bearer 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";
+        $authorization = "Authorization: bearer " . $token;
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $authorization));
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
@@ -152,4 +152,6 @@ function createTable () { // создает график с количество
     }
     echo '</g>';
 }
+
+
 
