@@ -7,6 +7,7 @@ $i = 0;
 foreach ($tmp as $login) {
     $dataArray[$i] = json_decode(getData($login), true);
     $i++;
+    if ($i == 5) break;
 }
 
 $timeMonthAgo = new DateTime("now"); // сегодняшняя дата
@@ -66,12 +67,12 @@ for ($i = 0; $i < 5; $i++)
 function getData($name): bool|string // возвращает строку данных с гитхаб или false
 {
     $url = "https://api.github.com/graphql";
-
+    global $tmp;
     if ($ch = curl_init($url)) {
 
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
-        $authorization = "Authorization: bearer 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";
+        $authorization = "Authorization: bearer " . $tmp['token'];
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $authorization));
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
